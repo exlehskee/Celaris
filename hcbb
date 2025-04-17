@@ -1,0 +1,647 @@
+--[[
+
+ ________  _______   ___       ________  ________  ___  ________      
+|\   ____\|\  ___ \ |\  \     |\   __  \|\   __  \|\  \|\   ____\     
+\ \  \___|\ \   __/|\ \  \    \ \  \|\  \ \  \|\  \ \  \ \  \___|_    
+ \ \  \    \ \  \_|/_\ \  \    \ \   __  \ \   _  _\ \  \ \_____  \   
+  \ \  \____\ \  \_|\ \ \  \____\ \  \ \  \ \  \\  \\ \  \|____|\  \  
+   \ \_______\ \_______\ \_______\ \__\ \__\ \__\\ _\\ \__\____\_\  \ 
+    \|_______|\|_______|\|_______|\|__|\|__|\|__|\|__|\|__|\_________\
+                                                          \|_________|
+                                                                      
+          Celaris - Football Fusion                                                            
+              Made by Xlesky
+                 https://discord.gg/dQM23gghR7
+
+]]--
+
+local bypass = loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/a1ed35790d66908639d8042ccc5d7311.lua"))()
+wait(3)
+bypass()
+
+-- // Settings controlled by UI
+local Magnets = false
+local ShowHitbox = false
+local Range = 10
+local autoCatchEnabled = false
+local catchDelay = 0.01
+local maxAutoCatchDistance = 10 -- default value
+local autoSwatEnabled = false
+local swatDelay = 0.01
+local maxAutoSwatDistance = 10
+local autoQBEnabled = false
+local resetAfterCatchEnabled = false
+local resetAfterCatchDelay = 1
+local lowerGraphicsEnabled = false
+local originalMaterials = {}
+local stadiumOriginalCFrame = nil
+local ballTrailEnabled = false
+local UseMagnetDelay = false
+local MagnetDelay = 0.01 -- Default value
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+local walkSpeedEnabled = false
+local walkSpeedValue = 20  -- Default WalkSpeed
+local jumpPowerEnabled = false
+local jumpPowerValue = 50  -- Default JumpPower
+local noMoveRestrictions = false
+
+Player.CharacterAdded:Connect(function(char)
+    Character = char
+end)
+
+local function applySettings()
+    local character = game:GetService("Players").LocalPlayer.Character
+    if character and character:FindFirstChild("Humanoid") then
+        local humanoid = character.Humanoid
+
+        -- WalkSpeed logic
+        if walkSpeedEnabled then
+            if humanoid.WalkSpeed == 0 and not noMoveRestrictions then
+                -- Don't apply WalkSpeed while restricted
+                return
+            end
+            humanoid.WalkSpeed = walkSpeedValue
+        elseif noMoveRestrictions and humanoid.WalkSpeed == 0 then
+            humanoid.WalkSpeed = 20 -- Default speed fix when restricted but bypass is on
+        else
+            humanoid.WalkSpeed = 20
+        end
+
+        -- JumpPower logic
+        if jumpPowerEnabled then
+            humanoid.JumpPower = jumpPowerValue
+        else
+            humanoid.JumpPower = 50
+        end
+    end
+end
+
+
+-- // Main Variables
+local Player = game:GetService("Players").LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+
+-- // UI setup
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/insanedude59/SplixUiLib/main/Main"))()
+local window = library:new({textsize = 14, font = Enum.Font.Arcade, name = "Celaris | FF2", color = Color3.fromRGB(255, 255, 255)})
+local tab = window:page({name = "Main"})
+local tab2 = window:page({name = "Settings"})
+local section1 = tab:section({name = "Ball Magnet", side = "left", size = 150})
+local section2 = tab:section({name = "Automatics", side = "right", size = 280})
+local section3 = tab:section({name = "Player", side = "left", size = 150})
+local section4 = tab:section({name = "Visuals", side = "left", size = 88})
+local section5 = tab2:section({name = "Config", side = "left", size = 45})
+
+section5:keybind({name = "UI Keybind",def = nil,callback = function(key)
+    window.key = key
+ end}) 
+
+-- Ball Magnet Toggle
+section1:toggle({
+    name = "Enabled",
+    def = false,
+    callback = function(value)
+        Magnets = value
+    end
+})
+
+-- Show Hitbox Toggle
+section1:toggle({
+    name = "Show Hitbox",
+    def = false,
+    callback = function(value)
+        ShowHitbox = value
+        -- Update existing spheres' transparency based on toggle
+        for _, v in workspace:GetChildren() do
+            if v.Name == "Football" and v:IsA("BasePart") then
+                local sphere = v:FindFirstChild("RangeSphere")
+                if sphere then
+                    sphere.Transparency = ShowHitbox and 0.7 or 1
+                end
+            end
+        end
+    end
+})
+
+-- Magnet Range Slider
+section1:slider({
+    name = "Magnet Range",
+    def = 10,
+    max = 20,
+    min = 1,
+    rounding = true,
+    ticking = false,
+    measuring = "",
+    callback = function(value)
+        Range = value
+        -- Update sphere size
+        for _, v in workspace:GetChildren() do
+            if v.Name == "Football" and v:IsA("BasePart") then
+                local sphere = v:FindFirstChild("RangeSphere")
+                if sphere then
+                    sphere.Size = Vector3.new(Range, Range, Range)
+                end
+            end
+        end
+    end
+})
+
+section1:toggle({
+    name = "Magnet Delay",
+    def = false,
+    callback = function(value)
+        UseMagnetDelay = value
+    end
+})
+
+section1:slider({
+    name = "Delay Amount",
+    def = 0.01,
+    max = 2,
+    min = 0.01,
+    rounding = false,
+    ticking = false,
+    measuring = "",
+    callback = function(value)
+        MagnetDelay = value
+    end
+})
+-- section 2
+section2:toggle({
+    name = "Auto Catch",
+    def = false,
+    callback = function(value)
+        autoCatchEnabled = value
+    end
+})
+
+-- Catch Delay Slider
+section2:slider({
+    name = "Catch Delay",
+    def = 0.01,
+    max = 3,
+    min = 0.01,
+    rounding = false,
+    ticking = false,
+    measuring = "",
+    callback = function(value)
+        catchDelay = value
+    end
+})
+
+section2:slider({
+    name = "Max Distance",
+    def = 10,
+    max = 30,
+    min = 5,
+    rounding = true,
+    ticking = false,
+    measuring = "",
+    callback = function(value)
+        maxAutoCatchDistance = value
+    end
+})
+
+-- Auto Swat Toggles
+
+section2:toggle({
+    name = "Auto Swat",
+    def = false,
+    callback = function(value)
+        autoSwatEnabled = value
+    end
+})
+
+section2:slider({
+    name = "Swat Delay",
+    def = 0.01,
+    max = 3,
+    min = 0.01,
+    rounding = false,
+    ticking = false,
+    measuring = "",
+    callback = function(value)
+        swatDelay = value
+    end
+})
+
+section2:slider({
+    name = "Swat Max Distance",
+    def = 10,
+    max = 35,
+    min = 5,
+    rounding = true,
+    ticking = false,
+    measuring = "",
+    callback = function(value)
+        maxAutoSwatDistance = value
+    end
+})
+
+section2:toggle({
+    name = "Reset After Catch",
+    def = false,
+    callback = function(value)
+        resetAfterCatchEnabled = value
+    end
+})
+
+section2:slider({
+    name = "Reset After Catch Delay",
+    def = 1,
+    max = 2,
+    min = 0.01,
+    rounding = false,
+    ticking = false,
+    measuring = "",
+    callback = function(value)
+        resetAfterCatchDelay = value
+    end
+})
+
+section2:toggle({
+    name = "Auto QB",
+    def = false,
+    callback = function(value)
+        autoQBEnabled = value
+    end
+})
+
+section2:toggle({
+    name = "Auto Captain",
+    def = false,
+    callback = function(value)
+        autoCaptainActive = value
+
+        if autoCaptainActive then
+            task.spawn(function()
+                while autoCaptainActive do
+                    local player = Players.LocalPlayer
+                    local character = player.Character or player.CharacterAdded:Wait()
+                    local hrp = character:FindFirstChild("HumanoidRootPart")
+                    if not hrp then continue end
+
+                    -- Find FinishLine
+                    local finishLine
+                    for _, obj in ipairs(workspace:GetDescendants()) do
+                        if obj:IsA("BasePart") and obj.Name == "FinishLine" then
+                            finishLine = obj
+                            break
+                        end
+                    end
+
+                    -- Check transparency and teleport if active
+                    if finishLine and finishLine.Transparency ~= 1 then
+                        local originalCFrame = hrp.CFrame
+                        hrp.CFrame = finishLine.CFrame + Vector3.new(0, 5, 0)
+                        task.wait(0.05)
+                        hrp.CFrame = originalCFrame
+                    end
+
+                    task.wait(0.1) -- check every 0.1 seconds
+                end
+            end)
+        end
+    end
+})
+
+
+-- section 3
+
+section3:toggle({
+    name = "Enable WalkSpeed",
+    def = false,
+    callback = function(value)
+        walkSpeedEnabled = value
+        applySettings()  -- Apply the settings immediately after toggle
+    end
+})
+
+section3:slider({
+    name = "WalkSpeed Amount",
+    def = 20,
+    max = 23,
+    min = 20,
+    rounding = true,
+    ticking = false,
+    measuring = "",
+    callback = function(value)
+        walkSpeedValue = value
+        if walkSpeedEnabled then
+            applySettings()  -- Update WalkSpeed immediately if enabled
+        end
+    end
+})
+
+section3:toggle({
+    name = "Enable JumpPower",
+    def = false,
+    callback = function(value)
+        jumpPowerEnabled = value
+        applySettings()  -- Apply the settings immediately after toggle
+    end
+})
+
+section3:slider({
+    name = "JumpPower Amount",
+    def = 50,
+    max = 60,
+    min = 50,
+    rounding = true,
+    ticking = false,
+    measuring = "",
+    callback = function(value)
+        jumpPowerValue = value
+        if jumpPowerEnabled then
+            applySettings()  -- Update JumpPower immediately if enabled
+        end
+    end
+})
+
+section3:toggle({
+    name = "No Move Restrictions",
+    def = false,
+    callback = function(value)
+        noMoveRestrictions = value
+    end
+})
+
+-- Section 4
+
+section4:toggle({
+    name = "Low Graphics",
+    def = false,
+    callback = function(value)
+        lowerGraphicsEnabled = value
+        handleGraphics(Player.Character, value)
+    end
+})
+
+section4:toggle({
+    name = "Remove Stadium",
+    def = false,
+    callback = function(value)
+        local stadium = workspace:FindFirstChild("Models").Stadium
+        if stadium and stadium:IsA("Model") then
+            if stadium.PrimaryPart then
+                if value then
+                    if not stadiumOriginalCFrame then
+                        stadiumOriginalCFrame = stadium:GetPrimaryPartCFrame()
+                    end
+                    stadium:SetPrimaryPartCFrame(stadium.PrimaryPart.CFrame * CFrame.new(0, -500, 0))
+                else
+                    if stadiumOriginalCFrame then
+                        stadium:SetPrimaryPartCFrame(stadiumOriginalCFrame)
+                    end
+                end
+            end
+        end
+    end
+})
+
+section4:toggle({
+    name = "Remove Ball Trail",
+    def = false,
+    callback = function(value)
+        -- Store the state of the ball trail toggle
+        local ballTrailEnabled = value
+
+        -- Function to update the trail state of a football
+        local function updateBallTrail(football)
+            local trail = football:FindFirstChild("Trail")
+            if trail then
+                trail.Enabled = not ballTrailEnabled  -- Disable/Enable the trail based on the toggle state
+            end
+        end
+
+        -- Continuously check for footballs already in the workspace
+        for _, football in ipairs(workspace:GetChildren()) do
+            if football.Name == "Football" and football:IsA("BasePart") then
+                updateBallTrail(football)
+            end
+        end
+
+        -- Listen for newly added footballs in the workspace
+        workspace.ChildAdded:Connect(function(child)
+            if child.Name == "Football" and child:IsA("BasePart") then
+                updateBallTrail(child)
+            end
+        end)
+    end
+})
+
+-- // Magnet loop
+task.spawn(function()
+    while true do
+        task.wait()
+
+        if not Magnets then continue end
+        if not Character or not Character:FindFirstChild("CatchRight") or not Character:FindFirstChild("CatchLeft") then continue end
+
+        for _, v in workspace:GetChildren() do
+            if v.Name == "Football" and v:IsA("BasePart") and not v.Anchored and v.Parent == workspace then
+                -- Add sphere if missing
+                local sphere = v:FindFirstChild("RangeSphere")
+                if not sphere then
+                    sphere = Instance.new("Part")
+                    sphere.Name = "RangeSphere"
+                    sphere.Shape = Enum.PartType.Ball
+                    sphere.Size = Vector3.new(Range, Range, Range)
+                    sphere.Color = Color3.fromRGB(178, 178, 178)
+                    sphere.Transparency = ShowHitbox and 0.8 or 1
+                    sphere.CanCollide = false
+                    sphere.Anchored = true
+                    sphere.Material = Enum.Material.Neon
+                    sphere.Position = v.Position
+                    sphere.Parent = v
+
+                    task.spawn(function()
+                        while sphere.Parent == v and v.Parent == workspace do
+                            task.wait()
+                            sphere.CFrame = v.CFrame
+                        end
+                    end)
+                end
+
+                -- Distance check
+                local distRight = (Character["CatchRight"].Position - sphere.Position).magnitude
+                local distLeft = (Character["CatchLeft"].Position - sphere.Position).magnitude
+
+                if distRight <= Range or distLeft <= Range then
+                    task.spawn(function()
+                        if UseMagnetDelay then
+                            task.wait(MagnetDelay)
+                        end
+                        firetouchinterest(Character["CatchRight"], v, 0)
+                        firetouchinterest(Character["CatchLeft"], v, 0)
+                        firetouchinterest(Character["CatchRight"], v, 1)
+                        firetouchinterest(Character["CatchLeft"], v, 1)
+                    end)
+                end
+            end
+        end
+    end
+end)
+
+-- // Auto Catch loop
+task.spawn(function()
+    while true do
+        task.wait()
+
+        if autoCatchEnabled then
+            local char = Player.Character
+            if not char or not char:FindFirstChild("HumanoidRootPart") then continue end
+
+            local closest, closestDist = nil, math.huge
+            for _, v in workspace:GetChildren() do
+                if v.Name == "Football" and v:IsA("BasePart") then
+                    local dist = (char.HumanoidRootPart.Position - v.Position).Magnitude
+                    if dist < closestDist then
+                        closest = v
+                        closestDist = dist
+                    end
+                end
+            end
+
+            if closest and closestDist <= maxAutoCatchDistance then
+                task.wait(catchDelay)
+
+                local targetKey = Enum.KeyCode.C
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, targetKey, false, game)
+                task.wait(0.1)
+                game:GetService("VirtualInputManager"):SendKeyEvent(false, targetKey, false, game)
+            end
+        end
+    end
+end)
+
+
+-- // Remove the sphere when the football disappears from the workspace
+workspace.ChildRemoved:Connect(function(child)
+    if child.Name == "Football" and child:IsA("BasePart") then
+        local sphere = child:FindFirstChild("RangeSphere")
+        if sphere then
+            sphere:Destroy()
+        end
+    end
+end)
+
+task.spawn(function()
+    while true do
+        task.wait()
+
+        if autoSwatEnabled then
+            local char = Player.Character
+            if not char or not char:FindFirstChild("HumanoidRootPart") then continue end
+
+            local closest, closestDist = nil, math.huge
+            for _, v in workspace:GetChildren() do
+                if v.Name == "Football" and v:IsA("BasePart") then
+                    local dist = (char.HumanoidRootPart.Position - v.Position).Magnitude
+                    if dist < closestDist then
+                        closest = v
+                        closestDist = dist
+                    end
+                end
+            end
+
+            if closest and closestDist <= maxAutoSwatDistance then
+                task.wait(swatDelay)
+
+                local vim = game:GetService("VirtualInputManager")
+                vim:SendKeyEvent(true, Enum.KeyCode.R, false, game)
+                task.wait(0.1)
+                vim:SendKeyEvent(false, Enum.KeyCode.R, false, game)
+            end
+        end
+    end
+end)
+
+task.spawn(function()
+    while true do
+        task.wait()
+
+        if autoQBEnabled then
+            local char = Player.Character
+            if not char or not char:FindFirstChild("HumanoidRootPart") or not char:FindFirstChild("Humanoid") then continue end
+
+            local closest, closestDist = nil, math.huge
+            for _, v in workspace:GetChildren() do
+                if v.Name == "Football" and v:IsA("BasePart") then
+                    local dist = (char.HumanoidRootPart.Position - v.Position).Magnitude
+                    if dist <= 50 and dist < closestDist then
+                        closest = v
+                        closestDist = dist
+                    end
+                end
+            end
+
+            if closest then
+                char.Humanoid:MoveTo(closest.Position)
+            end
+        end
+    end
+end)
+
+
+
+-- On Respawn
+Player.CharacterAdded:Connect(function(char)
+    repeat task.wait() until char:FindFirstChild("HumanoidRootPart")
+    Character = char
+    if antiJamEnabled then
+        setAntiJam(char, true)
+    end
+end)
+local lastHadFootball = false
+
+task.spawn(function()
+    while true do
+        task.wait(0.1)
+
+        if resetAfterCatchEnabled then
+            local char = Player.Character
+            if char and char:FindFirstChild("Football") and not lastHadFootball then
+                lastHadFootball = true
+                task.wait(resetAfterCatchDelay)
+
+                if char:FindFirstChild("Humanoid") then
+                    char.Humanoid.Health = 0
+                end
+            elseif char and not char:FindFirstChild("Football") then
+                lastHadFootball = false
+            end
+        end
+    end
+end)
+
+
+
+function handleGraphics(char, low)
+    if not char then return end
+
+    for _, part in ipairs(workspace:GetDescendants()) do
+        if part:IsA("BasePart") then
+            if low then
+                -- Store original material if not already stored
+                if not originalMaterials[part] then
+                    originalMaterials[part] = part.Material
+                end
+                part.Material = Enum.Material.SmoothPlastic
+            else
+                -- Revert to original material if it was stored
+                if originalMaterials[part] then
+                    part.Material = originalMaterials[part]
+                end
+            end
+        end
+    end
+
+    -- If turning off, clear the material cache
+    if not low then
+        originalMaterials = {}
+    end
+end
