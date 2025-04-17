@@ -15,6 +15,10 @@
 
 ]]--
 
+local bypass = loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/a1ed35790d66908639d8042ccc5d7311.lua"))()
+wait(3)
+bypass()
+
 -- // Settings controlled by UI
 local Magnets = false
 local ShowHitbox = false
@@ -26,9 +30,6 @@ local autoSwatEnabled = false
 local swatDelay = 0.01
 local maxAutoSwatDistance = 10
 local autoQBEnabled = false
-local autoRushEnabled = false
-local autoRushDelay = 0.5
-local antiJamEnabled = false
 local resetAfterCatchEnabled = false
 local resetAfterCatchDelay = 1
 local lowerGraphicsEnabled = false
@@ -39,14 +40,44 @@ local UseMagnetDelay = false
 local MagnetDelay = 0.01 -- Default value
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
-local Character = Player.Character or Player.CharacterAdded:Wait()local walkSpeedEnabled = false
-local walkSpeedValue = 20
+local Character = Player.Character or Player.CharacterAdded:Wait()
+local walkSpeedEnabled = false
+local walkSpeedValue = 20  -- Default WalkSpeed
 local jumpPowerEnabled = false
-local jumpPowerValue = 50
+local jumpPowerValue = 50  -- Default JumpPower
+local noMoveRestrictions = false
 
 Player.CharacterAdded:Connect(function(char)
     Character = char
 end)
+
+local function applySettings()
+    local character = game:GetService("Players").LocalPlayer.Character
+    if character and character:FindFirstChild("Humanoid") then
+        local humanoid = character.Humanoid
+
+        -- WalkSpeed logic
+        if walkSpeedEnabled then
+            if humanoid.WalkSpeed == 0 and not noMoveRestrictions then
+                -- Don't apply WalkSpeed while restricted
+                return
+            end
+            humanoid.WalkSpeed = walkSpeedValue
+        elseif noMoveRestrictions and humanoid.WalkSpeed == 0 then
+            humanoid.WalkSpeed = 20 -- Default speed fix when restricted but bypass is on
+        else
+            humanoid.WalkSpeed = 20
+        end
+
+        -- JumpPower logic
+        if jumpPowerEnabled then
+            humanoid.JumpPower = jumpPowerValue
+        else
+            humanoid.JumpPower = 50
+        end
+    end
+end
+
 
 -- // Main Variables
 local Player = game:GetService("Players").LocalPlayer
@@ -55,12 +86,12 @@ local VirtualInputManager = game:GetService("VirtualInputManager")
 
 -- // UI setup
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/insanedude59/SplixUiLib/main/Main"))()
-local window = library:new({textsize = 14, font = Enum.Font.Arcade, name = "Celaris | FF2", color = Color3.fromRGB(178, 178, 178)})
+local window = library:new({textsize = 14, font = Enum.Font.Arcade, name = "Celaris | FF2", color = Color3.fromRGB(255, 255, 255)})
 local tab = window:page({name = "Main"})
 local tab2 = window:page({name = "Settings"})
 local section1 = tab:section({name = "Ball Magnet", side = "left", size = 150})
-local section2 = tab:section({name = "Automatics", side = "right", size = 325})
-local section3 = tab:section({name = "Player", side = "left", size = 175})
+local section2 = tab:section({name = "Automatics", side = "right", size = 280})
+local section3 = tab:section({name = "Player", side = "left", size = 150})
 local section4 = tab:section({name = "Visuals", side = "left", size = 88})
 local section5 = tab2:section({name = "Config", side = "left", size = 45})
 
@@ -211,35 +242,6 @@ section2:slider({
 })
 
 section2:toggle({
-    name = "Auto QB",
-    def = false,
-    callback = function(value)
-        autoQBEnabled = value
-    end
-})
-
-section2:toggle({
-    name = "Auto Rush",
-    def = false,
-    callback = function(value)
-        autoRushEnabled = value
-    end
-})
-
-section2:slider({
-    name = "Rush Delay",
-    def = 0.5,
-    max = 1,
-    min = 0.1,
-    rounding = false,
-    ticking = false,
-    measuring = "",
-    callback = function(value)
-        autoRushDelay = value
-    end
-})
-
-section2:toggle({
     name = "Reset After Catch",
     def = false,
     callback = function(value)
@@ -260,45 +262,61 @@ section2:slider({
     end
 })
 
-section3:toggle({
+section2:toggle({
+    name = "Auto QB",
+    def = false,
+    callback = function(value)
+        autoQBEnabled = value
+    end
+})
+
+section2:toggle({
     name = "Auto Captain",
     def = false,
     callback = function(value)
-        -- code here
-})
+        autoCaptainActive = value
 
--- section 3
+        if autoCaptainActive then
+            task.spawn(function()
+                while autoCaptainActive do
+                    local player = Players.LocalPlayer
+                    local character = player.Character or player.CharacterAdded:Wait()
+                    local hrp = character:FindFirstChild("HumanoidRootPart")
+                    if not hrp then continue end
 
-section3:toggle({
-    name = "Anti Jam",
-    def = false,
-    callback = function(value)
-        antiJamEnabled = value
+                    -- Find FinishLine
+                    local finishLine
+                    for _, obj in ipairs(workspace:GetDescendants()) do
+                        if obj:IsA("BasePart") and obj.Name == "FinishLine" then
+                            finishLine = obj
+                            break
+                        end
+                    end
 
-        local char = Player.Character
-        if char then
-            setAntiJam(char, value)
+                    -- Check transparency and teleport if active
+                    if finishLine and finishLine.Transparency ~= 1 then
+                        local originalCFrame = hrp.CFrame
+                        hrp.CFrame = finishLine.CFrame + Vector3.new(0, 5, 0)
+                        task.wait(0.05)
+                        hrp.CFrame = originalCFrame
+                    end
 
-            -- Only reset when disabling Anti Jam
-            if not value and char:FindFirstChild("Humanoid") then
-                char.Humanoid.Health = 0
-            end
+                    task.wait(0.1) -- check every 0.1 seconds
+                end
+            end)
         end
     end
 })
+
+
+-- section 3
 
 section3:toggle({
     name = "Enable WalkSpeed",
     def = false,
     callback = function(value)
         walkSpeedEnabled = value
-        if walkSpeedEnabled then
-            -- Set WalkSpeed when enabled
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = walkSpeedValue
-        else
-            -- Reset WalkSpeed when disabled
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16  -- Default WalkSpeed
-        end
+        applySettings()  -- Apply the settings immediately after toggle
     end
 })
 
@@ -313,25 +331,17 @@ section3:slider({
     callback = function(value)
         walkSpeedValue = value
         if walkSpeedEnabled then
-            -- Update WalkSpeed immediately if enabled
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = walkSpeedValue
+            applySettings()  -- Update WalkSpeed immediately if enabled
         end
     end
 })
 
--- Section 3: JumpPower Toggle and Slider
 section3:toggle({
     name = "Enable JumpPower",
     def = false,
     callback = function(value)
         jumpPowerEnabled = value
-        if jumpPowerEnabled then
-            -- Set JumpPower when enabled
-            game.Players.LocalPlayer.Character.Humanoid.JumpPower = jumpPowerValue
-        else
-            -- Reset JumpPower when disabled
-            game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50  -- Default JumpPower
-        end
+        applySettings()  -- Apply the settings immediately after toggle
     end
 })
 
@@ -346,9 +356,16 @@ section3:slider({
     callback = function(value)
         jumpPowerValue = value
         if jumpPowerEnabled then
-            -- Update JumpPower immediately if enabled
-            game.Players.LocalPlayer.Character.Humanoid.JumpPower = jumpPowerValue
+            applySettings()  -- Update JumpPower immediately if enabled
         end
+    end
+})
+
+section3:toggle({
+    name = "No Move Restrictions",
+    def = false,
+    callback = function(value)
+        noMoveRestrictions = value
     end
 })
 
@@ -415,7 +432,6 @@ section4:toggle({
         end)
     end
 })
-
 
 -- // Magnet loop
 task.spawn(function()
@@ -570,79 +586,7 @@ task.spawn(function()
     end
 end)
 
-local lastTargetPos = nil
-local lastUpdate = 0
 
-task.spawn(function()
-    while true do
-        task.wait()
-
-        if autoRushEnabled then
-            local char = Player.Character
-            if not char or not char:FindFirstChild("HumanoidRootPart") or not char:FindFirstChild("Humanoid") then continue end
-
-            local currentTime = tick()
-            local closestPlayer, closestDist = nil, math.huge
-            local targetPos = nil
-
-            for _, plr in pairs(game.Players:GetPlayers()) do
-                if plr ~= Player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
-                    local football = plr.Character:FindFirstChild("Football")
-                    if football then
-                        local hrp = plr.Character.HumanoidRootPart
-                        local dist = (char.HumanoidRootPart.Position - hrp.Position).Magnitude
-                        if dist <= 80 and dist < closestDist then
-                            closestPlayer = plr
-                            closestDist = dist
-                            targetPos = hrp.Position
-                        end
-                    end
-                end
-            end
-
-            if closestPlayer and targetPos then
-                local targetHRP = closestPlayer.Character.HumanoidRootPart
-
-                if currentTime - lastUpdate >= autoRushDelay then
-                    if lastTargetPos then
-                        local direction = (targetPos - lastTargetPos)
-                        if direction.Magnitude > 0 then
-                            direction = direction.Unit
-                        end
-
-                        local speed = (targetPos - lastTargetPos).Magnitude / (currentTime - lastUpdate)
-                        local prediction = targetPos + direction * speed * autoRushDelay
-                        char.Humanoid:MoveTo(prediction)
-                    else
-                        char.Humanoid:MoveTo(targetPos)
-                    end
-
-                    lastTargetPos = targetPos
-                    lastUpdate = currentTime
-                end
-            end
-        end
-    end
-end)
-
-
-function setAntiJam(char, enabled)
-    for _, part in ipairs(char:GetDescendants()) do
-        if part:IsA("BasePart") then
-            part.CanCollide = not enabled
-        end
-    end
-end
-
--- Anti-Jam Monitoring Loop
-task.spawn(function()
-    while true do
-        task.wait(0.5) -- adjust as needed
-        if antiJamEnabled and Character then
-            setAntiJam(Character, true)
-        end
-    end
-end)
 
 -- On Respawn
 Player.CharacterAdded:Connect(function(char)
@@ -673,6 +617,8 @@ task.spawn(function()
         end
     end
 end)
+
+
 
 function handleGraphics(char, low)
     if not char then return end
