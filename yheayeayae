@@ -67,37 +67,34 @@ function FuzkiLib:Create(name, gameName)
     lineTab.Position = UDim2.new(0, 0, 0.972222209, 0)
     lineTab.Size = UDim2.new(0, 435, 0, 1)
 
-    local UIS = game:GetService("UserInputService")
-    local dragging, dragInput, dragStart, startPos
-    local drag = MainLib -- Replace with the actual UI element you want to drag
-    
-    drag.InputBegan:Connect(function(input)
+    local UserInputService = game:GetService("UserInputService")
+
+    local TopBar = MainLib
+
+    local Camera = workspace:WaitForChild("Camera")
+
+    local DragMousePosition
+    local FramePosition
+    local Draggable = false
+    TopBar.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            dragStart = UIS:GetMouseLocation()
-            startPos = drag.Position
+            Draggable = true
+            DragMousePosition = Vector2.new(input.Position.X, input.Position.Y)
+            FramePosition = Vector2.new(MainLib.Position.X.Scale, MainLib.Position.Y.Scale)
         end
     end)
-    
-    UIS.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            dragInput = input
+    UserInputService.InputChanged:Connect(function(input)
+        if Draggable == true then
+            local NewPosition = FramePosition + ((Vector2.new(input.Position.X, input.Position.Y) - DragMousePosition) / Camera.ViewportSize)
+            MainLib.Position = UDim2.new(NewPosition.X, 0, NewPosition.Y, 0)
         end
     end)
-    
-    UIS.InputEnded:Connect(function(input)
+
+    UserInputService.InputEnded:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging = false
+            Draggable = false
         end
     end)
-    
-    game:GetService("RunService").RenderStepped:Connect(function()
-        if dragging and dragInput then
-            local delta = UIS:GetMouseLocation() - dragStart
-            drag.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-        end
-    end)
-    
 
     title.Name = "title"
     title.Parent = MainLib
@@ -589,15 +586,3 @@ function FuzkiLib:Create(name, gameName)
     return InsideFuzki
 end
 return FuzkiLib
-
-local toggleKey = Enum.KeyCode.RightControl -- You can change this to any key
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    if input.KeyCode == toggleKey then
-        local gui = game:GetService("CoreGui"):FindFirstChild("FuzkiLibrary") or Player:FindFirstChild("PlayerGui"):FindFirstChild("FuzkiLibrary")
-        if gui then
-            gui.Enabled = not gui.Enabled
-        end
-    end
-end)
