@@ -429,7 +429,7 @@ function Library:CreateWindow(options)
 					Library:tween(Circle, {Position = UDim2.new(0.104,0,0.123,0)})
 					Library:tween(Circle, {BackgroundColor3 = Color3.new(0.5765,0.5765,0.5765)})
 					togglegradient1.Enabled = false
-					ToggleStroke.Color = Color3.new(0.251,0.251,0.251)
+					ToggleStroke.Color = Color3.fromRGB(35, 35, 35)
 					Library:tween(ToggleTitle, {TextColor3 = Color3.new(0.5765,0.5765,0.5765)})
 				end
 
