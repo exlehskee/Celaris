@@ -100,6 +100,7 @@ function Library:CreateWindow(options)
 	local Title = Instance.new('TextLabel', TabBar)
 	local Divider = Instance.new('Frame', TabBar)
 	local MainCorner = Instance.new('UICorner', Main)
+	MainCorner.CornerRadius = UDim.new(0, 15)  -- Sets a corner radius of 6 pixels
 	local Search = Instance.new('ImageButton', Main)
 	
 	local tabOffset = 0
