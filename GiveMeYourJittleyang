@@ -147,9 +147,9 @@ function Library:CreateWindow(options)
 	TabBarStroke.Color = Color3.new(0.251,0.251,0.251)
 	SelectedGradient.Name = "SelectedGradient"
 	SelectedGradient.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.new(0.1568627506494522, 0.1568627506494522, 0.1568627506494522)), -- 40,40,40
-		ColorSequenceKeypoint.new(0.5, Color3.new(0.11764705926179886, 0.11764705926179886, 0.11764705926179886)), -- 30,30,30
-		ColorSequenceKeypoint.new(1, Color3.new(0.09803921729326248, 0.09803921729326248, 0.09803921729326248)) -- 25,25,25
+		ColorSequenceKeypoint.new(0, Color3.new(0.6274509804, 0.8392156863, 1)),        -- Light blue (160, 214, 255)
+		ColorSequenceKeypoint.new(0.5, Color3.new(0.2117647059, 0.4705882353, 0.9333333333)), -- Medium blue (54, 120, 238)
+		ColorSequenceKeypoint.new(1, Color3.new(0.1176470588, 0.1764705882, 0.368627451))     -- Dark blue (30, 45, 94)
 	})	
 	SelectedGradient.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0.2749999761581421,0), NumberSequenceKeypoint.new(1,0.32499998807907104,0)})
 	Search.Name = "Search"
@@ -382,7 +382,11 @@ function Library:CreateWindow(options)
 			CircleCorner.CornerRadius = UDim.new(0,100)
 			
 			togglegradient1.Name = "SelectedGradient"
-			togglegradient1.Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(0.9607843160629272, 0.4117647111415863, 0.9764705896377563)),ColorSequenceKeypoint.new(1,Color3.new(0.5254902243614197, 0.43529412150382996, 1))})
+			togglegradient1.Color = ColorSequence.new({
+				ColorSequenceKeypoint.new(0, Color3.new(0.6274509804, 0.8392156863, 1)),        -- Light blue (160, 214, 255)
+				ColorSequenceKeypoint.new(0.5, Color3.new(0.2117647059, 0.4705882353, 0.9333333333)), -- Medium blue (54, 120, 238)
+				ColorSequenceKeypoint.new(1, Color3.new(0.1176470588, 0.1764705882, 0.368627451))     -- Dark blue (30, 45, 94)
+			})			
 			togglegradient1.Rotation = 180
 			
 			toggle.State = options.default
@@ -505,9 +509,11 @@ function Library:CreateWindow(options)
 			SliderMain.BorderColor3 = Color3.new(0,0,0)
 			SliderMain.ZIndex = 131
 			SliderMainGradient.Name = "SliderMainGradient"
-			SliderMainGradient.Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(0.9607843160629272, 0.4117647111415863, 0.9764705896377563)	),ColorSequenceKeypoint.new(1,Color3.new(0.5254902243614197, 0.43529412150382996, 1))})
-			
-
+			SliderMainGradient.Color = ColorSequence.new({
+				ColorSequenceKeypoint.new(0, Color3.new(0.6274509804, 0.8392156863, 1)),        -- Light blue (160, 214, 255)
+				ColorSequenceKeypoint.new(0.5, Color3.new(0.2117647059, 0.4705882353, 0.9333333333)), -- Medium blue (54, 120, 238)
+				ColorSequenceKeypoint.new(1, Color3.new(0.1176470588, 0.1764705882, 0.368627451))     -- Dark blue (30, 45, 94)
+			})
 			function slider:SetValue(v)
 				if v == nil then
 					local percentage = math.clamp((mouse.X - SliderBack.AbsolutePosition.X) / (SliderBack.AbsoluteSize.X), 0, 1)
@@ -700,7 +706,11 @@ function Library:CreateWindow(options)
 				OptionTitle.TextSize = 12
 				OptionTitle.ZIndex = 130
 				TitleGradient.Name = "TitleGradient"
-				TitleGradient.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.new(0.9607843160629272, 0.4117647111415863, 0.9764705896377563)), ColorSequenceKeypoint.new(1, Color3.new(0.5254902243614197, 0.43529412150382996, 1))})
+				TitleGradient.Color = ColorSequence.new({
+					ColorSequenceKeypoint.new(0, Color3.new(0.6274509804, 0.8392156863, 1)),        -- Light blue (160, 214, 255)
+					ColorSequenceKeypoint.new(0.5, Color3.new(0.2117647059, 0.4705882353, 0.9333333333)), -- Medium blue (54, 120, 238)
+					ColorSequenceKeypoint.new(1, Color3.new(0.1176470588, 0.1764705882, 0.368627451))     -- Dark blue (30, 45, 94)
+				})				
 				TitleGradient.Rotation = 180
 				
 				if options.default == v then
