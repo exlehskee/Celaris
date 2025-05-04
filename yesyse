@@ -145,7 +145,7 @@ function Library:CreateWindow(options)
 	Divider.BorderSizePixel = 0
 	Divider.BorderColor3 = Color3.new(0,0,0)
 	Divider.ZIndex = 121
-	TabBarStroke.Color = Color3.fromRGB(54, 54, 54)
+	TabBarStroke.Color = Color3.fromRGB(35, 35, 35)
 	SelectedGradient.Name = "SelectedGradient"
 	SelectedGradient.Color = ColorSequence.new({
 		ColorSequenceKeypoint.new(0, Color3.new(0.741176471, 0.145098039, 0.145098039)),  -- Subtle light red (189, 37, 37)
@@ -694,7 +694,7 @@ function Library:CreateWindow(options)
 				Option.BorderColor3 = Color3.new(0,0,0)
 				Option.AutomaticSize = Enum.AutomaticSize.Y
 				Option.ZIndex = 121
-				OptionStroke.Color = Color3.new(0.251,0.251,0.251)
+				OptionStroke.Color = Color3.fromRGB(35, 35, 35)
 				OptionTitle.Name = "OptionTitle"
 				OptionTitle.Size = UDim2.new(0,450,0,26)
 				OptionTitle.BackgroundColor3 = Color3.new(1,1,1)
