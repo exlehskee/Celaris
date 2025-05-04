@@ -13,7 +13,7 @@ local Library = {}
 local components = {}
 local componentIntegrity = {}
 local canDrag = true
-local mainKeybind = "LeftAlt"
+local mainKeybind = "RightControl"
 
 local function CreateDrag(gui)
 	local dragging
@@ -145,7 +145,7 @@ function Library:CreateWindow(options)
 	Divider.BorderSizePixel = 0
 	Divider.BorderColor3 = Color3.new(0,0,0)
 	Divider.ZIndex = 121
-	TabBarStroke.Color = Color3.fromRGB(54, 54, 54)
+	TabBarStroke.Color = Color3.fromRGB(35, 35, 35)
 	SelectedGradient.Name = "SelectedGradient"
 	SelectedGradient.Color = ColorSequence.new({
 		ColorSequenceKeypoint.new(0, Color3.new(0.741176471, 0.145098039, 0.145098039)),  -- Subtle light red (189, 37, 37)
@@ -349,7 +349,7 @@ function Library:CreateWindow(options)
 			Toggle.BorderSizePixel = 0
 			Toggle.BorderColor3 = Color3.new(0,0,0)
 			Toggle.ZIndex = 115
-			ToggleStroke.Color = Color3.fromRGB(50, 50, 50)
+			ToggleStroke.Color = Color3.fromRGB(35, 35, 35)
 			ToggleCorner.CornerRadius = UDim.new(0,6)
 			ToggleTitle.Name = "ComponentTitle"
 			ToggleTitle.Position = UDim2.new(0.0232,0,0,0)
@@ -368,7 +368,7 @@ function Library:CreateWindow(options)
 			ToggleBack.Name = "ToggleBack"
 			ToggleBack.Position = UDim2.new(0.8926,0,0.1818,0)
 			ToggleBack.Size = UDim2.new(0,44,0,21)
-			ToggleBack.BackgroundColor3 = Color3.new(0.102,0.102,0.102)
+			ToggleBack.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 			ToggleBack.BorderSizePixel = 0
 			ToggleBack.BorderColor3 = Color3.new(0,0,0)
 			ToggleBack.ZIndex = 117
@@ -407,7 +407,7 @@ function Library:CreateWindow(options)
 				Library:tween(Circle, {BackgroundColor3 = Color3.new(0.5765,0.5765,0.5765)})
 				Library:tween(ToggleTitle, {TextColor3 = Color3.new(0.5765,0.5765,0.5765)})
 				togglegradient1.Enabled = false
-				ToggleStroke.Color = Color3.new(0.251,0.251,0.251)
+				ToggleStroke.Color = Color3.fromRGB(35, 35, 35)
 			end
 
 			function toggle:Toggle(boolean)
@@ -429,7 +429,7 @@ function Library:CreateWindow(options)
 					Library:tween(Circle, {Position = UDim2.new(0.104,0,0.123,0)})
 					Library:tween(Circle, {BackgroundColor3 = Color3.new(0.5765,0.5765,0.5765)})
 					togglegradient1.Enabled = false
-					ToggleStroke.Color = Color3.new(0.251,0.251,0.251)
+					ToggleStroke.Color = Color3.fromRGB(35, 35, 35)
 					Library:tween(ToggleTitle, {TextColor3 = Color3.new(0.5765,0.5765,0.5765)})
 				end
 
@@ -462,12 +462,12 @@ function Library:CreateWindow(options)
 			Slider.Name = "Slider"
 			Slider.Position = UDim2.new(0.3031,0,0.5718,0)
 			Slider.Size = UDim2.new(0,475,0,46)
-			Slider.BackgroundColor3 = Color3.new(0.1529,0.1529,0.1529)
+			Slider.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
 			Slider.BorderSizePixel = 0
 			Slider.BorderColor3 = Color3.new(0,0,0)
 			Slider.ZIndex = 115
 			Slider.AutoButtonColor = false
-			SliderStroke.Color = Color3.new(0.251,0.251,0.251)
+			SliderStroke.Color = Color3.fromRGB(35, 35, 35)
 			SliderCorner.CornerRadius = UDim.new(0,6)
 			SliderTitle.Name = "ComponentTitle"
 			SliderTitle.Position = UDim2.new(0.0232,0,0,0)
@@ -612,11 +612,11 @@ function Library:CreateWindow(options)
 			Dropdown.Name = "Dropdown"
 			Dropdown.Position = UDim2.new(0.3031,0,0.5718,0)
 			Dropdown.Size = UDim2.new(0,475,0,33)
-			Dropdown.BackgroundColor3 = Color3.new(0.1529,0.1529,0.1529)
+			Dropdown.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
 			Dropdown.BorderSizePixel = 0
 			Dropdown.BorderColor3 = Color3.new(0,0,0)
 			Dropdown.ZIndex = 115
-			DropdownStroke.Color = Color3.new(0.251,0.251,0.251)
+			DropdownStroke.Color = Color3.fromRGB(35, 35, 35)
 			DropdownCorner.CornerRadius = UDim.new(0,6)
 			DropDownTitle.Name = "ComponentTitle"
 			DropDownTitle.Position = UDim2.new(0.0232,0,0,0)
@@ -694,7 +694,7 @@ function Library:CreateWindow(options)
 				Option.BorderColor3 = Color3.new(0,0,0)
 				Option.AutomaticSize = Enum.AutomaticSize.Y
 				Option.ZIndex = 121
-				OptionStroke.Color = Color3.new(0.251,0.251,0.251)
+				OptionStroke.Color = Color3.fromRGB(35, 35, 35)
 				OptionTitle.Name = "OptionTitle"
 				OptionTitle.Size = UDim2.new(0,450,0,26)
 				OptionTitle.BackgroundColor3 = Color3.new(1,1,1)
@@ -767,12 +767,12 @@ function Library:CreateWindow(options)
 			Button.Name = "Button"
 			Button.Position = UDim2.new(0.3031,0,0.5718,0)
 			Button.Size = UDim2.new(0,475,0,33)
-			Button.BackgroundColor3 = Color3.new(0.1529,0.1529,0.1529)
+			Button.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
 			Button.BorderSizePixel = 0
 			Button.BorderColor3 = Color3.new(0,0,0)
 			Button.ZIndex = 115
 			Button.AutoButtonColor = false
-			ButtonStroke.Color = Color3.new(0.251,0.251,0.251)
+			ButtonStroke.Color = Color3.fromRGB(35, 35, 35)
 			ButtonCorner.CornerRadius = UDim.new(0,6)
 			ButtonTitle.Name = "ComponentTitle"
 			ButtonTitle.Size = UDim2.new(0,475,0,33)
