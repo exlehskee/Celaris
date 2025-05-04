@@ -345,11 +345,11 @@ function Library:CreateWindow(options)
 			Toggle.Name = "Toggle"
 			Toggle.Position = UDim2.new(0.3031,0,0.5718,0)
 			Toggle.Size = UDim2.new(0,475,0,33)
-			Toggle.BackgroundColor3 = Color3.new(0.1529,0.1529,0.1529)
+			Toggle.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
 			Toggle.BorderSizePixel = 0
 			Toggle.BorderColor3 = Color3.new(0,0,0)
 			Toggle.ZIndex = 115
-			ToggleStroke.Color = Color3.new(0.251,0.251,0.251)
+			ToggleStroke.Color = Color3.fromRGB(50, 50, 50)
 			ToggleCorner.CornerRadius = UDim.new(0,6)
 			ToggleTitle.Name = "ComponentTitle"
 			ToggleTitle.Position = UDim2.new(0.0232,0,0,0)
@@ -418,7 +418,7 @@ function Library:CreateWindow(options)
 				end
 
 				if toggle.State then
-					Library:tween(ToggleBack, {BackgroundColor3 = Color3.new(0.415686, 0.443137, 0.854902)})
+					Library:tween(ToggleBack, {BackgroundColor3 = Color3.fromRGB(189, 37, 37)})
 					Library:tween(Circle, {Position = UDim2.new(0.595,0,0.123,0)})
 					Library:tween(Circle, {BackgroundColor3 = Color3.new(1, 1, 1)})
 					Library:tween(ToggleTitle, {TextColor3 = Color3.new(1, 1, 1)})
