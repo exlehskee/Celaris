@@ -116,7 +116,7 @@ function Library:CreateWindow(options)
 	TabBar.Name = "TabBar"
 	TabBar.Position = UDim2.new(0.0193,0,0.0274,0)
 	TabBar.Size = UDim2.new(0,180,0,414)
-	TabBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+	TabBar.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
 	TabBar.BorderSizePixel = 0
 	TabBar.BorderColor3 = Color3.new(0,0,0)
 	TabBar.ZIndex = 101
@@ -272,7 +272,7 @@ function Library:CreateWindow(options)
 		Tab.Text = options.Name
 		Tab.TextColor3 = Color3.new(1,1,1)
 		Tab.Font = Enum.Font.Gotham
-		Tab.TextSize = 17
+		Tab.TextSize = 15
 		Tab.ZIndex = 106
 		Canvas.Name = "Canvas"
 		Canvas.Position = UDim2.new(0.2706,0,0.098,0)
