@@ -368,7 +368,7 @@ function Library:CreateWindow(options)
 			ToggleBack.Name = "ToggleBack"
 			ToggleBack.Position = UDim2.new(0.8926,0,0.1818,0)
 			ToggleBack.Size = UDim2.new(0,44,0,21)
-			ToggleBack.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+			ToggleBack.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 			ToggleBack.BorderSizePixel = 0
 			ToggleBack.BorderColor3 = Color3.new(0,0,0)
 			ToggleBack.ZIndex = 117
@@ -407,7 +407,7 @@ function Library:CreateWindow(options)
 				Library:tween(Circle, {BackgroundColor3 = Color3.new(0.5765,0.5765,0.5765)})
 				Library:tween(ToggleTitle, {TextColor3 = Color3.new(0.5765,0.5765,0.5765)})
 				togglegradient1.Enabled = false
-				ToggleStroke.Color = Color3.new(0.251,0.251,0.251)
+				ToggleStroke.Color = Color3.fromRGB(35, 35, 35)
 			end
 
 			function toggle:Toggle(boolean)
