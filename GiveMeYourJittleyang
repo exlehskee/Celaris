@@ -116,7 +116,7 @@ function Library:CreateWindow(options)
 	TabBar.Name = "TabBar"
 	TabBar.Position = UDim2.new(0.0193,0,0.0274,0)
 	TabBar.Size = UDim2.new(0,180,0,414)
-	TabBar.BackgroundColor3 = Color3.new(0.1529,0.1529,0.1529)
+	TabBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 	TabBar.BorderSizePixel = 0
 	TabBar.BorderColor3 = Color3.new(0,0,0)
 	TabBar.ZIndex = 101
@@ -135,7 +135,7 @@ function Library:CreateWindow(options)
 	Title.BorderColor3 = Color3.new(0,0,0)
 	Title.Text = options.Title
 	Title.TextColor3 = Color3.new(1,1,1)
-	Title.Font = Enum.Font.Gotham
+	Title.Font = Enum.Font.GothamBold
 	Title.TextSize = 29
 	Title.ZIndex = 120
 	Divider.Name = "Divider"
@@ -145,13 +145,13 @@ function Library:CreateWindow(options)
 	Divider.BorderSizePixel = 0
 	Divider.BorderColor3 = Color3.new(0,0,0)
 	Divider.ZIndex = 121
-	TabBarStroke.Color = Color3.new(0.251,0.251,0.251)
+	TabBarStroke.Color = Color3.fromRGB(54, 54, 54)
 	SelectedGradient.Name = "SelectedGradient"
 	SelectedGradient.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.new(0.431372549, 0.666666667, 0.921568627)),        -- Slightly darker light blue (110, 170, 235)
-		ColorSequenceKeypoint.new(0.5, Color3.new(0.211764706, 0.470588235, 0.933333333)),       -- Medium blue (54, 120, 238)
-		ColorSequenceKeypoint.new(1, Color3.new(0.117647059, 0.176470588, 0.368627451))          -- Dark blue (30, 45, 94)
-	})	
+		ColorSequenceKeypoint.new(0, Color3.new(0.741176471, 0.145098039, 0.145098039)),  -- Subtle light red (189, 37, 37)
+		ColorSequenceKeypoint.new(0.5, Color3.new(0.662745098, 0.015686275, 0.015686275)), -- Medium red (169, 4, 4)
+		ColorSequenceKeypoint.new(1, Color3.new(0.411764706, 0.050980392, 0.050980392))   -- Dark red (105, 13, 13)
+	})
 	SelectedGradient.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0.2749999761581421,0), NumberSequenceKeypoint.new(1,0.32499998807907104,0)})
 	Search.Name = "Search"
 	Search.Position = UDim2.new(0.933,0,0.0274,0)
@@ -384,10 +384,10 @@ function Library:CreateWindow(options)
 			
 			togglegradient1.Name = "SelectedGradient"
 			togglegradient1.Color = ColorSequence.new({
-				ColorSequenceKeypoint.new(0, Color3.new(0.431372549, 0.666666667, 0.921568627)),        -- Slightly darker light blue (110, 170, 235)
-				ColorSequenceKeypoint.new(0.5, Color3.new(0.211764706, 0.470588235, 0.933333333)),       -- Medium blue (54, 120, 238)
-				ColorSequenceKeypoint.new(1, Color3.new(0.117647059, 0.176470588, 0.368627451))          -- Dark blue (30, 45, 94)
-			})			
+				ColorSequenceKeypoint.new(0, Color3.new(0.741176471, 0.145098039, 0.145098039)),  -- Subtle light red (189, 37, 37)
+				ColorSequenceKeypoint.new(0.5, Color3.new(0.662745098, 0.015686275, 0.015686275)), -- Medium red (169, 4, 4)
+				ColorSequenceKeypoint.new(1, Color3.new(0.411764706, 0.050980392, 0.050980392))   -- Dark red (105, 13, 13)
+			})		
 			togglegradient1.Rotation = 180
 			
 			toggle.State = options.default
@@ -511,9 +511,9 @@ function Library:CreateWindow(options)
 			SliderMain.ZIndex = 131
 			SliderMainGradient.Name = "SliderMainGradient"
 			SliderMainGradient.Color = ColorSequence.new({
-				ColorSequenceKeypoint.new(0, Color3.new(0.431372549, 0.666666667, 0.921568627)),        -- Slightly darker light blue (110, 170, 235)
-				ColorSequenceKeypoint.new(0.5, Color3.new(0.211764706, 0.470588235, 0.933333333)),       -- Medium blue (54, 120, 238)
-				ColorSequenceKeypoint.new(1, Color3.new(0.117647059, 0.176470588, 0.368627451))          -- Dark blue (30, 45, 94)
+				ColorSequenceKeypoint.new(0, Color3.new(0.741176471, 0.145098039, 0.145098039)),  -- Subtle light red (189, 37, 37)
+				ColorSequenceKeypoint.new(0.5, Color3.new(0.662745098, 0.015686275, 0.015686275)), -- Medium red (169, 4, 4)
+				ColorSequenceKeypoint.new(1, Color3.new(0.411764706, 0.050980392, 0.050980392))   -- Dark red (105, 13, 13)
 			})
 			
 			function slider:SetValue(v)
@@ -709,10 +709,10 @@ function Library:CreateWindow(options)
 				OptionTitle.ZIndex = 130
 				TitleGradient.Name = "TitleGradient"
 				TitleGradient.Color = ColorSequence.new({
-					ColorSequenceKeypoint.new(0, Color3.new(0.431372549, 0.666666667, 0.921568627)),        -- Slightly darker light blue (110, 170, 235)
-					ColorSequenceKeypoint.new(0.5, Color3.new(0.211764706, 0.470588235, 0.933333333)),       -- Medium blue (54, 120, 238)
-					ColorSequenceKeypoint.new(1, Color3.new(0.117647059, 0.176470588, 0.368627451))          -- Dark blue (30, 45, 94)
-				})							
+					ColorSequenceKeypoint.new(0, Color3.new(0.741176471, 0.145098039, 0.145098039)),  -- Subtle light red (189, 37, 37)
+					ColorSequenceKeypoint.new(0.5, Color3.new(0.662745098, 0.015686275, 0.015686275)), -- Medium red (169, 4, 4)
+					ColorSequenceKeypoint.new(1, Color3.new(0.411764706, 0.050980392, 0.050980392))   -- Dark red (105, 13, 13)
+				})					
 				TitleGradient.Rotation = 180
 				
 				if options.default == v then
