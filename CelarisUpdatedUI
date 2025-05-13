@@ -98,7 +98,7 @@ function lib:Window(text, preset)
     Main.Name = "Main"
     Main.Parent = ui
     Main.AnchorPoint = Vector2.new(0.5, 0.5)
-    Main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Main.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
     Main.BorderSizePixel = 0
     Main.Position = UDim2.new(0.5, 0, 0.5, 0)
     Main.Size = UDim2.new(0, 0, 0, 0)
@@ -357,6 +357,7 @@ function lib:Window(text, preset)
         Tab.CanvasSize = UDim2.new(0, 0, 0, 0)
         Tab.ScrollBarThickness = 3
         Tab.Visible = false
+        Tab.ClipsDescendants = false
 
         TabLayout.Name = "TabLayout"
         TabLayout.Parent = Tab
@@ -491,7 +492,7 @@ function lib:Window(text, preset)
 
             Toggle.Name = "Toggle"
             Toggle.Parent = Tab
-            Toggle.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
+            Toggle.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
             Toggle.Position = UDim2.new(0.215625003, 0, 0.446271926, 0)
             Toggle.Size = UDim2.new(0, 363, 0, 42)
             Toggle.AutoButtonColor = false
@@ -691,10 +692,16 @@ function lib:Window(text, preset)
             local SlideFrame = Instance.new("Frame")
             local CurrentValueFrame = Instance.new("Frame")
             local SlideCircle = Instance.new("ImageButton")
+            local SliderStroke = Instance.new("UIStroke")
+            SliderStroke.Color = Color3.fromRGB(255, 104, 104)
+            SliderStroke.Thickness = 1
+            SliderStroke.Transparency = 1 
+            SliderStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            SliderStroke.Parent = Slider
 
             Slider.Name = "Slider"
             Slider.Parent = Tab
-            Slider.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+            Slider.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
             Slider.Position = UDim2.new(-0.48035714, 0, -0.570532918, 0)
             Slider.Size = UDim2.new(0, 363, 0, 60)
             Slider.AutoButtonColor = false
@@ -752,6 +759,16 @@ function lib:Window(text, preset)
             SlideCircle.Size = UDim2.new(0, 11, 0, 11)
             SlideCircle.Image = "rbxassetid://3570695787"
             SlideCircle.ImageColor3 = PresetColor
+
+            Slider.MouseEnter:Connect(function()
+                local tween = TweenService:Create(SliderCorner, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 0 })
+                tween:Play()
+            end)
+            
+            Slider.MouseLeave:Connect(function()
+                local tween = TweenService:Create(SliderStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 1 })
+                tween:Play()
+            end)
 
             coroutine.wrap(
                 function()
@@ -1021,6 +1038,12 @@ function lib:Window(text, preset)
             local HueCorner = Instance.new("UICorner")
             local HueGradient = Instance.new("UIGradient")
             local HueSelection = Instance.new("ImageLabel")
+            local CPStroke = Instance.new("UIStroke")
+            CPStroke.Color = Color3.fromRGB(255, 104, 104)
+            CPStroke.Thickness = 1
+            CPStroke.Transparency = 1 
+            CPStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            CPStroke.Parent = Toggle
 
             Colorpicker.Name = "Colorpicker"
             Colorpicker.Parent = Tab
@@ -1464,15 +1487,31 @@ function lib:Window(text, preset)
                 end
             )
             Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
+
+            Colorpicker.MouseEnter:Connect(function()
+                local tween = TweenService:Create(CPStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 0 })
+                tween:Play()
+            end)
+            
+            Colorpicker.MouseLeave:Connect(function()
+                local tween = TweenService:Create(CPStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 1 })
+                tween:Play()
+            end)
         end
         function tabcontent:Label(text)
             local Label = Instance.new("TextButton")
             local LabelCorner = Instance.new("UICorner")
             local LabelTitle = Instance.new("TextLabel")
+            local ButtonStroke = Instance.new("UIStroke")
+            ButtonStroke.Color = Color3.fromRGB(255, 104, 104)
+            ButtonStroke.Thickness = 1
+            ButtonStroke.Transparency = 1 
+            ButtonStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            ButtonStroke.Parent = Label
 
             Label.Name = "Button"
             Label.Parent = Tab
-            Label.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+            Label.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
             Label.Size = UDim2.new(0, 363, 0, 42)
             Label.AutoButtonColor = false
             Label.Font = Enum.Font.SourceSans
@@ -1497,6 +1536,16 @@ function lib:Window(text, preset)
             LabelTitle.TextXAlignment = Enum.TextXAlignment.Left
 
             Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
+
+            Label.MouseEnter:Connect(function()
+                local tween = TweenService:Create(ButtonStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 0 })
+                tween:Play()
+            end)
+            
+            Label.MouseLeave:Connect(function()
+                local tween = TweenService:Create(ButtonStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 1 })
+                tween:Play()
+            end)
         end
         function tabcontent:Textbox(text, disapper, callback)
             local Textbox = Instance.new("Frame")
@@ -1505,6 +1554,12 @@ function lib:Window(text, preset)
             local TextboxFrame = Instance.new("Frame")
             local TextboxFrameCorner = Instance.new("UICorner")
             local TextBox = Instance.new("TextBox")
+            local TextBoxStroke = Instance.new("UIStroke")
+            TextBoxStroke.Color = Color3.fromRGB(255, 104, 104)
+            TextBoxStroke.Thickness = 1
+            TextBoxStroke.Transparency = 1 
+            TextBoxStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            TextBoxStroke.Parent = Toggle
 
             Textbox.Name = "Textbox"
             Textbox.Parent = Tab
@@ -1561,6 +1616,16 @@ function lib:Window(text, preset)
                 end
             )
             Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
+
+            Textbox.MouseEnter:Connect(function()
+                local tween = TweenService:Create(TextBoxStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 0 })
+                tween:Play()
+            end)
+            
+            TextBox.MouseLeave:Connect(function()
+                local tween = TweenService:Create(TextBoxStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 1 })
+                tween:Play()
+            end)
         end
         function tabcontent:Bind(text, keypreset, callback)
             local binding = false
