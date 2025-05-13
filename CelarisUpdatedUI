@@ -1043,7 +1043,7 @@ function lib:Window(text, preset)
             CPStroke.Thickness = 1
             CPStroke.Transparency = 1 
             CPStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-            CPStroke.Parent = Toggle
+            CPStroke.Parent = Colorpicker
 
             Colorpicker.Name = "Colorpicker"
             Colorpicker.Parent = Tab
@@ -1559,7 +1559,7 @@ function lib:Window(text, preset)
             TextBoxStroke.Thickness = 1
             TextBoxStroke.Transparency = 1 
             TextBoxStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-            TextBoxStroke.Parent = Toggle
+            TextBoxStroke.Parent = Textbox
 
             Textbox.Name = "Textbox"
             Textbox.Parent = Tab
@@ -1622,7 +1622,7 @@ function lib:Window(text, preset)
                 tween:Play()
             end)
             
-            TextBox.MouseLeave:Connect(function()
+            Textbox.MouseLeave:Connect(function()
                 local tween = TweenService:Create(TextBoxStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 1 })
                 tween:Play()
             end)
