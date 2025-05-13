@@ -761,7 +761,7 @@ function lib:Window(text, preset)
             SlideCircle.ImageColor3 = PresetColor
 
             Slider.MouseEnter:Connect(function()
-                local tween = TweenService:Create(SliderCorner, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 0 })
+                local tween = TweenService:Create(SliderStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 0 })
                 tween:Play()
             end)
             
@@ -1047,7 +1047,7 @@ function lib:Window(text, preset)
 
             Colorpicker.Name = "Colorpicker"
             Colorpicker.Parent = Tab
-            Colorpicker.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+            Colorpicker.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
             Colorpicker.ClipsDescendants = true
             Colorpicker.Position = UDim2.new(-0.541071415, 0, -0.532915354, 0)
             Colorpicker.Size = UDim2.new(0, 363, 0, 42)
@@ -1563,7 +1563,7 @@ function lib:Window(text, preset)
 
             Textbox.Name = "Textbox"
             Textbox.Parent = Tab
-            Textbox.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+            Textbox.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
             Textbox.ClipsDescendants = true
             Textbox.Position = UDim2.new(-0.541071415, 0, -0.532915354, 0)
             Textbox.Size = UDim2.new(0, 363, 0, 42)
