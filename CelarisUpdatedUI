@@ -423,7 +423,7 @@ function lib:Window(text, preset)
 
             Button.Name = "Button"
             Button.Parent = Tab
-            Button.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
+            Button.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
             Button.Size = UDim2.new(0, 363, 0, 42)
             Button.AutoButtonColor = false
             Button.Font = Enum.Font.SourceSans
