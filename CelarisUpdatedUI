@@ -577,7 +577,7 @@ function lib:Window(text, preset)
                         TweenService:Create(
                             Toggle,
                             TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                            {BackgroundColor3 = Color3.fromRGB(37, 37, 37)}
+                            {BackgroundColor3 = Color3.fromRGB(31, 31, 31)}
                         ):Play()
                         TweenService:Create(
                             FrameToggle1,
@@ -610,7 +610,7 @@ function lib:Window(text, preset)
                         TweenService:Create(
                             Toggle,
                             TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                            {BackgroundColor3 = Color3.fromRGB(34, 34, 34)}
+                            {BackgroundColor3 = Color3.fromRGB(29, 29, 29)}
                         ):Play()
                         TweenService:Create(
                             FrameToggle1,
@@ -649,7 +649,7 @@ function lib:Window(text, preset)
                 TweenService:Create(
                     Toggle,
                     TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                    {BackgroundColor3 = Color3.fromRGB(37, 37, 37)}
+                    {BackgroundColor3 = Color3.fromRGB(31, 31, 31)}
                 ):Play()
                 TweenService:Create(
                     FrameToggle1,
