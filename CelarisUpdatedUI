@@ -5,7 +5,7 @@ local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
-local PresetColor = Color3.fromRGB(44, 120, 224)
+local PresetColor = Color3.fromRGB(255, 104, 104)
 
 local ui = Instance.new("ScreenGui")
 ui.Name = "name"
@@ -86,7 +86,7 @@ local function MakeDraggable(topbarobject, object)
 end
 
 function lib:Window(text, preset)
-    PresetColor = preset or Color3.fromRGB(44, 120, 224)
+    PresetColor = preset or Color3.fromRGB(255, 104, 104)
     fs = false
     local Main = Instance.new("Frame")
     local TabHold = Instance.new("Frame")
@@ -416,7 +416,7 @@ function lib:Window(text, preset)
 
             Button.Name = "Button"
             Button.Parent = Tab
-            Button.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+            Button.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
             Button.Size = UDim2.new(0, 363, 0, 42)
             Button.AutoButtonColor = false
             Button.Font = Enum.Font.SourceSans
@@ -481,11 +481,17 @@ function lib:Window(text, preset)
             local FrameToggle3 = Instance.new("Frame")
             local FrameToggle3Corner = Instance.new("UICorner")
             local FrameToggleCircle = Instance.new("Frame")
-            local FrameToggleCircleCorner = Instance.new("UICorner")
+            local FrameToggleCircleCorner = Instance.new("UICorner") 
+            local ToggleStroke = Instance.new("UIStroke")
+            ToggleStroke.Color = Color3.fromRGB(255, 104, 104)
+            ToggleStroke.Thickness = 1
+            ToggleStroke.Transparency = 1 
+            ToggleStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            ToggleStroke.Parent = Toggle
 
             Toggle.Name = "Toggle"
             Toggle.Parent = Tab
-            Toggle.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+            Toggle.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
             Toggle.Position = UDim2.new(0.215625003, 0, 0.446271926, 0)
             Toggle.Size = UDim2.new(0, 363, 0, 42)
             Toggle.AutoButtonColor = false
@@ -545,6 +551,16 @@ function lib:Window(text, preset)
 
             FrameToggleCircleCorner.Name = "FrameToggleCircleCorner"
             FrameToggleCircleCorner.Parent = FrameToggleCircle
+
+            Toggle.MouseEnter:Connect(function()
+                local tween = TweenService:Create(ToggleStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 0 })
+                tween:Play()
+            end)
+            
+            Toggle.MouseLeave:Connect(function()
+                local tween = TweenService:Create(ToggleStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 1 })
+                tween:Play()
+            end)
 
             coroutine.wrap(
                 function()
