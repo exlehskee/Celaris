@@ -835,10 +835,16 @@ function lib:Window(text, preset)
             local ArrowImg = Instance.new("ImageLabel")
             local DropItemHolder = Instance.new("ScrollingFrame")
             local DropLayout = Instance.new("UIListLayout")
+            local DropStroke = Instance.new("UIStroke")
+            DropStroke.Color = Color3.fromRGB(255, 104, 104)
+            DropStroke.Thickness = 1
+            DropStroke.Transparency = 1 
+            DropStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            DropStroke.Parent = Dropdown
 
             Dropdown.Name = "Dropdown"
             Dropdown.Parent = Tab
-            Dropdown.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+            Dropdown.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
             Dropdown.ClipsDescendants = true
             Dropdown.Position = UDim2.new(-0.541071415, 0, -0.532915354, 0)
             Dropdown.Size = UDim2.new(0, 363, 0, 42)
@@ -998,6 +1004,16 @@ function lib:Window(text, preset)
                 DropItemHolder.CanvasSize = UDim2.new(0, 0, 0, DropLayout.AbsoluteContentSize.Y)
             end
             Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
+
+            Dropdown.MouseEnter:Connect(function()
+                local tween = TweenService:Create(DropStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 0 })
+                tween:Play()
+            end)
+            
+            Dropdown.MouseLeave:Connect(function()
+                local tween = TweenService:Create(DropStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 1 })
+                tween:Play()
+            end)
         end
         function tabcontent:Colorpicker(text, preset, callback)
             local ColorPickerToggled = false
