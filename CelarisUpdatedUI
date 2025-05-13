@@ -414,6 +414,12 @@ function lib:Window(text, preset)
             local Button = Instance.new("TextButton")
             local ButtonCorner = Instance.new("UICorner")
             local ButtonTitle = Instance.new("TextLabel")
+            local ButtonStroke = Instance.new("UIStroke")
+            ButtonStroke.Color = Color3.fromRGB(255, 104, 104)
+            ButtonStroke.Thickness = 1
+            ButtonStroke.Transparency = 1 
+            ButtonStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            ButtonStroke.Parent = Button
 
             Button.Name = "Button"
             Button.Parent = Tab
@@ -446,7 +452,7 @@ function lib:Window(text, preset)
                     TweenService:Create(
                         Button,
                         TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                        {BackgroundColor3 = Color3.fromRGB(37, 37, 37)}
+                        {BackgroundColor3 = Color3.fromRGB(32, 32, 32)}
                     ):Play()
                 end
             )
@@ -456,7 +462,7 @@ function lib:Window(text, preset)
                     TweenService:Create(
                         Button,
                         TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                        {BackgroundColor3 = Color3.fromRGB(34, 34, 34)}
+                        {BackgroundColor3 = Color3.fromRGB(29, 29, 29)}
                     ):Play()
                 end
             )
@@ -468,6 +474,17 @@ function lib:Window(text, preset)
             )
 
             Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
+
+            Button.MouseEnter:Connect(function()
+                local tween = TweenService:Create(ButtonStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 0 })
+                tween:Play()
+            end)
+            
+            Button.MouseLeave:Connect(function()
+                local tween = TweenService:Create(ButtonStroke, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transparency = 1 })
+                tween:Play()
+            end)
+
         end
         function tabcontent:Toggle(text,default, callback)
             local toggled = false
