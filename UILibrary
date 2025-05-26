@@ -1,0 +1,157 @@
+-- ModuleScript: ExecutorUILib
+
+local UILib = {}
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local function createBaseGui()
+	local screenGui = Instance.new("ScreenGui")
+	screenGui.Name = "ExecutorUI"
+	screenGui.ResetOnSpawn = false
+	screenGui.IgnoreGuiInset = true
+	screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+	return screenGui
+end
+
+function UILib:CreateWindow(title)
+	local gui = createBaseGui()
+
+	-- Main Frame
+	local main = Instance.new("Frame")
+	main.Size = UDim2.new(0, 600, 0, 400)
+	main.Position = UDim2.new(0.5, -300, 0.5, -200)
+	main.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+	main.BorderSizePixel = 0
+	main.Name = "MainFrame"
+	main.Parent = gui
+
+	-- Topbar
+	local topbar = Instance.new("Frame")
+	topbar.Size = UDim2.new(1, 0, 0, 40)
+	topbar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+	topbar.Parent = main
+
+	local titleLabel = Instance.new("TextLabel")
+	titleLabel.Text = title
+	titleLabel.Size = UDim2.new(0, 200, 1, 0)
+	titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	titleLabel.Font = Enum.Font.GothamBold
+	titleLabel.TextSize = 18
+	titleLabel.BackgroundTransparency = 1
+	titleLabel.Position = UDim2.new(0, 10, 0, 0)
+	titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+	titleLabel.Parent = topbar
+
+	-- Sidebar
+	local sidebar = Instance.new("Frame")
+	sidebar.Size = UDim2.new(0, 100, 1, -40)
+	sidebar.Position = UDim2.new(0, 0, 0, 40)
+	sidebar.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+	sidebar.Parent = main
+
+	local tabHolder = Instance.new("Frame")
+	tabHolder.Size = UDim2.new(1, -100, 1, -40)
+	tabHolder.Position = UDim2.new(0, 100, 0, 40)
+	tabHolder.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+	tabHolder.Parent = main
+
+	local layout = Instance.new("UIListLayout")
+	layout.SortOrder = Enum.SortOrder.LayoutOrder
+	layout.Padding = UDim.new(0, 8)
+	layout.Parent = sidebar
+
+	return {
+		Gui = gui,
+		Main = main,
+		Topbar = topbar,
+		Sidebar = sidebar,
+		Tabs = {},
+		TabHolder = tabHolder
+	}
+end
+
+function UILib:CreateTab(window, name)
+	local button = Instance.new("TextButton")
+	button.Size = UDim2.new(1, -10, 0, 40)
+	button.Position = UDim2.new(0, 5, 0, 0)
+	button.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+	button.Text = name
+	button.TextColor3 = Color3.new(1, 1, 1)
+	button.Font = Enum.Font.Gotham
+	button.TextSize = 14
+	button.Parent = window.Sidebar
+
+	local tab = Instance.new("ScrollingFrame")
+	tab.Size = UDim2.new(1, 0, 1, 0)
+	tab.BackgroundTransparency = 1
+	tab.BorderSizePixel = 0
+	tab.CanvasSize = UDim2.new(0, 0, 0, 0)
+	tab.ScrollBarThickness = 4
+	tab.Visible = false
+	tab.Parent = window.TabHolder
+
+	local layout = Instance.new("UIListLayout")
+	layout.Padding = UDim.new(0, 10)
+	layout.SortOrder = Enum.SortOrder.LayoutOrder
+	layout.Parent = tab
+
+	button.MouseButton1Click:Connect(function()
+		for _, t in pairs(window.Tabs) do
+			t.Visible = false
+		end
+		tab.Visible = true
+	end)
+
+	table.insert(window.Tabs, tab)
+	return tab
+end
+
+function UILib:CreateButton(tab, text, callback)
+	local button = Instance.new("TextButton")
+	button.Size = UDim2.new(0, 400, 0, 40)
+	button.Text = text
+	button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+	button.TextColor3 = Color3.new(1, 1, 1)
+	button.Font = Enum.Font.Gotham
+	button.TextSize = 14
+	button.AutoButtonColor = true
+	button.Parent = tab
+
+	button.MouseButton1Click:Connect(callback)
+end
+
+function UILib:CreateToggle(tab, text, default, callback)
+	local frame = Instance.new("Frame")
+	frame.Size = UDim2.new(0, 400, 0, 40)
+	frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+	frame.Parent = tab
+
+	local label = Instance.new("TextLabel")
+	label.Text = text
+	label.Size = UDim2.new(1, -50, 1, 0)
+	label.Position = UDim2.new(0, 10, 0, 0)
+	label.TextColor3 = Color3.new(1, 1, 1)
+	label.Font = Enum.Font.Gotham
+	label.TextSize = 14
+	label.BackgroundTransparency = 1
+	label.TextXAlignment = Enum.TextXAlignment.Left
+	label.Parent = frame
+
+	local toggle = Instance.new("TextButton")
+	toggle.Size = UDim2.new(0, 40, 0, 25)
+	toggle.Position = UDim2.new(1, -50, 0.5, -12)
+	toggle.Text = ""
+	toggle.BackgroundColor3 = default and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(60, 60, 60)
+	toggle.BorderSizePixel = 0
+	toggle.Parent = frame
+
+	local state = default
+
+	toggle.MouseButton1Click:Connect(function()
+		state = not state
+		toggle.BackgroundColor3 = state and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(60, 60, 60)
+		callback(state)
+	end)
+end
+
+return UILib
