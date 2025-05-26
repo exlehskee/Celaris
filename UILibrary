@@ -9,7 +9,7 @@ local function createBaseGui()
 	screenGui.Name = "ExecutorUI"
 	screenGui.ResetOnSpawn = false
 	screenGui.IgnoreGuiInset = true
-	screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+	screenGui.Parent = game:GetService("CoreGui")
 	return screenGui
 end
 
