@@ -131,7 +131,6 @@ function Library:CreateTab(window, name)
 	end)
 
 	if #window.Tabs == 1 then
-		Button:FireEvent("MouseButton1Click")
 		Button.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
 		TabContent.Visible = true
 	end
