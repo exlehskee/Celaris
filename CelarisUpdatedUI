@@ -5,7 +5,7 @@ local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
-local PresetColor = Color3.fromRGB(255, 104, 104)
+local PresetColor = Color3.fromRGB(0, 255, 113)
 
 local ui = Instance.new("ScreenGui")
 ui.Name = "name"
@@ -86,7 +86,7 @@ local function MakeDraggable(topbarobject, object)
 end
 
 function lib:Window(text, preset)
-    PresetColor = preset or Color3.fromRGB(255, 104, 104)
+    PresetColor = preset or Color3.fromRGB(0, 255, 113)
     fs = false
     local Main = Instance.new("Frame")
     local TabHold = Instance.new("Frame")
@@ -415,7 +415,7 @@ function lib:Window(text, preset)
             local ButtonCorner = Instance.new("UICorner")
             local ButtonTitle = Instance.new("TextLabel")
             local ButtonStroke = Instance.new("UIStroke")
-            ButtonStroke.Color = Color3.fromRGB(255, 104, 104)
+            ButtonStroke.Color = Color3.fromRGB(0, 255, 113)
             ButtonStroke.Thickness = 1
             ButtonStroke.Transparency = 1 
             ButtonStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -501,7 +501,7 @@ function lib:Window(text, preset)
             local FrameToggleCircle = Instance.new("Frame")
             local FrameToggleCircleCorner = Instance.new("UICorner") 
             local ToggleStroke = Instance.new("UIStroke")
-            ToggleStroke.Color = Color3.fromRGB(255, 104, 104)
+            ToggleStroke.Color = Color3.fromRGB(0, 255, 113)
             ToggleStroke.Thickness = 1
             ToggleStroke.Transparency = 1 
             ToggleStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -710,7 +710,7 @@ function lib:Window(text, preset)
             local CurrentValueFrame = Instance.new("Frame")
             local SlideCircle = Instance.new("ImageButton")
             local SliderStroke = Instance.new("UIStroke")
-            SliderStroke.Color = Color3.fromRGB(255, 104, 104)
+            SliderStroke.Color = Color3.fromRGB(0, 255, 113)
             SliderStroke.Thickness = 1
             SliderStroke.Transparency = 1 
             SliderStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -853,7 +853,7 @@ function lib:Window(text, preset)
             local DropItemHolder = Instance.new("ScrollingFrame")
             local DropLayout = Instance.new("UIListLayout")
             local DropStroke = Instance.new("UIStroke")
-            DropStroke.Color = Color3.fromRGB(255, 104, 104)
+            DropStroke.Color = Color3.fromRGB(0, 255, 113)
             DropStroke.Thickness = 1
             DropStroke.Transparency = 1 
             DropStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -1072,7 +1072,7 @@ function lib:Window(text, preset)
             local HueGradient = Instance.new("UIGradient")
             local HueSelection = Instance.new("ImageLabel")
             local CPStroke = Instance.new("UIStroke")
-            CPStroke.Color = Color3.fromRGB(255, 104, 104)
+            CPStroke.Color = Color3.fromRGB(0, 255, 113)
             CPStroke.Thickness = 1
             CPStroke.Transparency = 1 
             CPStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -1536,7 +1536,7 @@ function lib:Window(text, preset)
             local LabelCorner = Instance.new("UICorner")
             local LabelTitle = Instance.new("TextLabel")
             local ButtonStroke = Instance.new("UIStroke")
-            ButtonStroke.Color = Color3.fromRGB(255, 104, 104)
+            ButtonStroke.Color = Color3.fromRGB(0, 255, 113)
             ButtonStroke.Thickness = 1
             ButtonStroke.Transparency = 1 
             ButtonStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -1588,7 +1588,7 @@ function lib:Window(text, preset)
             local TextboxFrameCorner = Instance.new("UICorner")
             local TextBox = Instance.new("TextBox")
             local TextBoxStroke = Instance.new("UIStroke")
-            TextBoxStroke.Color = Color3.fromRGB(255, 104, 104)
+            TextBoxStroke.Color = Color3.fromRGB(0, 255, 113)
             TextBoxStroke.Thickness = 1
             TextBoxStroke.Transparency = 1 
             TextBoxStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
